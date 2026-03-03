@@ -11,17 +11,35 @@
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
   </head>
-
   <body>
-
-    
     <script src="./Classes/Color.js"></script>
     <script src="./Classes/Task.js"></script>
     <script src="./Classes/List.js"></script>
     <script src="./Classes/Bar.js"></script>
     <script src="./Classes/ArchiveList.js"></script>
     <script src="./Classes/Menu.js"></script>
-    
     <script src="sketch.js"></script>
+    <dialog id="taskModal"> 
+      <h2>Add New Task</h2>
+      <label for="taskDesc">Task Name:</label>
+      <input type="text" id="taskName" name="taskName"><br><br>
+      <label for="taskDesc">Task Description:</label>
+      <input type="text" id="taskDesc" name="taskDesc"><br><br>
+      <button id="close-modal">Close</button>
+      <button id ="add-modal">Add</button>
+    </dialog>
+    <dialog id="listModal"> 
+      <h2>Add New List</h2>
+      <label for="listName">List Name:</label>
+      <input type="text" id="listName" name="listName"><br><br>
+      <button id="close-modal2">Close</button>
+      <button id ="add-modal2">Add</button>
+    </dialog>
+    <dialog id = "confirmModal">
+      <h2>Are you sure?</h2>
+      <button id="confirm-no">No</button>
+      <button id ="confirm-yes">Yes</button>
+    </dialog>
+  
   </body>
 </html>
