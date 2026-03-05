@@ -50,6 +50,11 @@ class Modal{
           return null;
         }
    }
+   static async getConfirmation(){
+       let modal = new Modal("confirm
+
+
+   }
    getInputValues(input){
         const inputElement = this.modal.querySelector(`#${input}`); //returns value of listname,taskname, taskdesc to create list and task
         if(inputElement){
