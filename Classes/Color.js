@@ -1,8 +1,7 @@
 //hmm maybe we should use this modularly for some other projects on p5js (virtual pet redux?)
-
-const DEFAULT_RED   = 0
-const DEFAULT_GREEN = 0
-const DEFAULT_BLUE  = 0
+const DEFAULT_RED        = 0
+const DEFAULT_GREEN      = 0
+const DEFAULT_BLUE       = 0
 
 class Color {
     //supports a single argument better c:
@@ -81,22 +80,27 @@ class Color {
 
     //just invert but darker, nothing else i can do
     toDarkMode() {
-        let newColor = this.copy()
-        
+        let colorDiff = -200
+       
         let colorVals = []
         
-        for (let colorVal of newColor.getColor()) {
+        for (let colorVal of this.getColor()) {
           // console.log(Math.sqrt(colorVal))
-          let newVal = Math.abs(colorVal - 200)
+          let newVal = Math.abs(colorVal + colorDiff)
           
           colorVals.push(newVal)
         }
 
-        newColor.changeColor(colorVals[0], colorVals[1], colorVals[2])
+        return new Color(colorVals[0], colorVals[1], colorVals[2])
+    }
 
-        return newColor
+    //no clue why anyone would use p5 colors over this but whatever (transparency or something?)
+    toP5Color() {
+        return color(this.R, this.G, this.B)
     }
 }
+
+
 
 function parseColor(colorString) {
     if (!colorString) {

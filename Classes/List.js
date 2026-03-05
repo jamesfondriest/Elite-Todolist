@@ -1,9 +1,9 @@
 const DEFAULT_LIST_NAME = "New List";
 
-const LIST_TITLE_COLOR = new Color();
-const LIST_BACKGROUND_COLOR = new Color(255);
+const LIST_TITLE_COLOR      = COLOR_PALETTE["ListTextPrimary"];
+const LIST_BACKGROUND_COLOR = COLOR_PALETTE["ListBg"];
 
-const LIST_BORDER_COLOR = new Color(100, 230, 255)
+const LIST_BORDER_COLOR     = COLOR_PALETTE["ListBorder"]
 
 class List {
     constructor(name) {
@@ -173,8 +173,7 @@ class List {
 
         for (let task of this.getStorage()) {
             // console.log(`Task being saved: ${task.getName()}`)
-            saveString += "&"
-            saveString += task.toSaveString()
+            saveString += "&" + task.toSaveString()
         }
 
         return saveString;
@@ -214,44 +213,19 @@ class List {
         }
     }
 
-    //sure hope im not doing anything dumb
-    // loadFromLocalStorage(listId){
-    //     //gets data from local storage
-    //     const data = localStorage.getItem(listId);
-    //     if (!data) { //should work the same as checking if null (if not change it back to "data === null")
-    //         return;
-    //     }
-
-    //     //converts it to be useable agige
-    //     const parsedData = JSON.parse(data);
-
-    //     //resets the name
-    //     this.name = parsedData.name;
-
-    //     //clears the data
-    //     this.listStorage = []; 
-
-    //     //needed to add the tasks to the list stoage and i forgot to do that... mb
-    //     if (parsedData.listStorage) {
-    //         for (let item of parsedData.listStorage) {
-    //             let task = Task.fromJSON(item);
-    //             this.addTask(task); 
-    //         }
-    //     }
-    // }
-
     show(x) {
+        
         if (theme === "default") {
-            stroke(0);
-            fill(255);
+            stroke(LIST_BORDER_COLOR.getColor())
+            fill(LIST_BACKGROUND_COLOR.getColor());
         } else if (theme === "dark") {
-            stroke(255);
-            fill(0);
+            stroke(LIST_BORDER_COLOR.toDarkMode().getColor())
+            fill(LIST_BACKGROUND_COLOR.toDarkMode().getColor());
         }
         // box
+        strokeWeight(5);
         let verticalOffsetTop = 100;
         let verticalOffsetBottom = 125;
-
 
         rect(x, verticalOffsetTop, 400, windowHeight - verticalOffsetBottom, 15);
 
@@ -262,21 +236,23 @@ class List {
         styleButton(this.addTaskButton);
         styleButton(this.deleteListButton);
 
-
         //shows buttons
         this.addTaskButton.show();
         this.deleteListButton.show();
 
         // title
+        strokeWeight(0)
         textFont(TEXT_FONT);
         textAlign(CENTER, CENTER);
         if (theme === "default") {
             strokeWeight(0);
+            fill(LIST_TITLE_COLOR.getColor());
         } else if (theme === "dark") {
             strokeWeight(3);
+            fill(LIST_TITLE_COLOR.toDarkMode().getColor());
         }
         textSize(24);
-        fill(LIST_TITLE_COLOR.getColor());
+        
         text(this.name, x + 200, verticalOffsetTop + 20);
         // fill(LIST_BACKGROUND_COLOR.getColor());
         textSize(12);
@@ -303,21 +279,6 @@ class List {
             task.menu.closeMenu();
         }
     }
-
-
-//     showTask(y){
-//         let taskSpacing = 150;// has to be < 130;
-//         for (let each of this.listStorage) {
-//             each.show(x + 10, y);
-//             y += taskSpacing;
-//         }
-//         y = 70;
-//         for (let each of this.listStorage) {
-//             each.showTaskMenu();
-//             y += 130;
-//         }
-//     }
-
 }
 
 function convertTaskFromSaveString(saveString) { //generational amount of characters
@@ -331,6 +292,6 @@ function convertTaskFromSaveString(saveString) { //generational amount of charac
     let savedColor    = parseColor(brokenString[5]);
     
     //might be an easier way to do this
-    let newTask = new Task(savedName, savedDesc, savedStatus, savedPosition, savedId, savedColor) ;
+    let newTask = new Task(savedName, savedDesc, savedStatus, savedPosition, savedId, savedColor);
     return newTask;
 }

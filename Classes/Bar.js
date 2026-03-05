@@ -5,7 +5,8 @@ class Bar{
         this.width = init_width;
         this.height = init_height;
         this.cornerCouverture = init_cornerCouverture;
-        this.color = init_color;
+        this.color = COLOR_PALETTE["ListBg"];
+        this.borderColor = COLOR_PALETTE["ListBorder"]
 
         this.addListButton = createButton(`Add list`);
         this.addListButton.hide();
@@ -42,12 +43,14 @@ class Bar{
 
 
     show(){
+        strokeWeight(5)
+        
         if (theme === "default") {
-            stroke(0);
-            fill(this.color);
+            stroke(this.borderColor.getColor());
+            fill(this.color.getColor());
         } else if (theme === "dark") {
-            stroke(255);
-            fill(0);
+            stroke(this.borderColor.toDarkMode().getColor());
+            fill(this.color.toDarkMode().getColor());
         }
         
         rect(this.x, this.y, this.width, this.height, this.cornerCouverture);

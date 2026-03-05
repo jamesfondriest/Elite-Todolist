@@ -1,6 +1,9 @@
 let listArray   = [];
 const X_START   = 10;
 const X_PADDING = 410;
+
+let bgColor = COLOR_PALETTE["Background"].getColor()
+
 let menuBar;
 let theme = "default";
 // sorry i couldnt think of a better solution for spacing them out
@@ -42,8 +45,9 @@ function setup() {
 }
 
 function draw() {
+  
   if (theme === "default") {
-    background(220);
+    background(bgColor);
   } else if (theme === "dark") {
     background(0);
   }

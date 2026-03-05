@@ -19,29 +19,18 @@ const DESC_SIZE           = 16;
 const STATUS_SIZE         = 16;
 
 //text font
-const TEXT_FONT           = "Courier New"; //TODO: change the font to something thats actually good (this is just one i picked randomly)
+const TEXT_FONT           = COLOR_PALETTE["Font"];
 
 //colors, lots of colors
-const BACKGROUND_COLORS   = [
-    new Color(58, 110, 165), 
-    new Color(192), 
-    new Color(161, 130, 118), 
-    new Color(55, 18, 60), 
-    new Color(27, 48, 34), 
-    new Color(114, 97, 163), 
-    new Color(212, 81, 19), 
-    new Color(60, 110, 113), 
-    new Color(58, 90, 64), 
-    new Color(52, 78, 65)
-];
-const NAME_COLOR          = new Color();
-const NAME_COLOR_STROKE   = NAME_COLOR.toInverted() ;
-const DESC_COLOR          = new Color(100);
+const BACKGROUND_COLOR    = COLOR_PALETTE["ElementBg"]
+const NAME_COLOR          = COLOR_PALETTE["ElementTextPrimary"]
+const NAME_COLOR_STROKE   = NAME_COLOR.toInverted();
+const DESC_COLOR          = COLOR_PALETTE["ElementTextSecondary"]
 const DESC_COLOR_STROKE   = DESC_COLOR.toInverted();
 const DEFAULT_WHITE       = new Color(255);
 
-const TASK_FILL           = new Color(255);
-const STROKE_COLOR        = new Color(100, 230, 255);
+const TASK_FILL           = COLOR_PALETTE["ElementBg"];
+const STROKE_COLOR        = COLOR_PALETTE["ElementStroke"];
 const STATUS_COLORS       = {
     Default: new Color(),
     Todo:    new Color(255, 0,   0),
@@ -75,7 +64,7 @@ class Task {
         this.position    = position || DEFAULT_POSITION;
         this.finished    =             DEFAULT_FINISHED;  
         this.id          = id       || Math.floor(Date.now() / ((Math.random() * 10000) + 500));
-        this.bgColor     = bgColor  || random(BACKGROUND_COLORS);
+        this.bgColor     = BACKGROUND_COLOR;
         // this.id          = id       || GenerateId();  
 
         //let menuBg = this.bgColor.getColor()
@@ -152,12 +141,13 @@ class Task {
     }
   
     show(x, y) {
+        let menu = this.menu
 
         this.x = x; // why is show (an accessor method) changing instance variables like a setter method?????
         this.y = y;
 
-        this.menu.x = this.x;
-        this.menu.y = this.y;
+        menu.x = this.x;
+        menu.y = this.y;
 
         // main box
         strokeWeight(3);
@@ -172,12 +162,12 @@ class Task {
         pop();
 
         // sets pos of buttons        
-        this.menu.menuButton.position(x + 345, y + 7);
+        menu.menuButton.position(x + 345, y + 7);
 
         //show move task up/down buttons
-        this.menu.menuButton.show();
+        menu.menuButton.show();
 
-        strokeWeight(1);
+        strokeWeight(0); //i really do not like using stroke on text, it looks SOOO ugly
         // text slop
         textFont(TEXT_FONT);
         //name
@@ -199,9 +189,9 @@ class Task {
         text(this.status, x + TEXT_X_OFFSET, y + TEXT_Y_PADDING * 3);
 
         fill(DEFAULT_WHITE.getColor());
-        strokeWeight(1);
+        //strokeWeight(1);
 
-        this.menu.show();
+        menu.show();
     }
 
     static fromJSON(data) {
@@ -226,29 +216,4 @@ class Task {
             id: this.id
         };
     }
-}
-
-let generatedIds = []; //array to store already generated ids (avoids the low chance of getting the same id twice)
-
-//Generates a random id for the task
-function GenerateId() {
-    let generatedId;
-    let idValid = false;
-
-    while (!idValid) {
-        generatedId = Math.floor(Math.random() * ID_MAX) + ID_MIN;
-        
-        //extra code to make it loop back around if the id is already created (too many lines for such an unlikely problem)
-        idValid = true;
-        for (let id in generatedIds) {
-            if (generatedId == id) {
-                console.warn("ID is already created!");
-                continue;
-            }
-            idValid = false;
-            generatedIds.push(generatedId);
-        }
-    }
-
-    return generatedId;
 }
